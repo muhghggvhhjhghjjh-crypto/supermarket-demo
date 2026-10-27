@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سوقنا | سوبر ماركت</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f3;color:#243328}
+header{background:#176b43;color:white;padding:22px 16px}
+header h1{margin:0 0 8px}
+header p{margin:0}
+main{max-width:850px;margin:auto;padding:20px}
+.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:16px;margin-bottom:20px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:white;padding:16px;border-radius:14px;box-shadow:0 2px 8px #0000000c}
+.emoji{font-size:42px}
+.card h3{margin:10px 0}
+.price{color:#176b43;font-weight:bold}
+button{border:0;border-radius:9px;padding:11px;background:#176b43;color:white;font-size:15px;cursor:pointer}
+.cart{background:white;margin-top:22px;padding:16px;border-radius:14px}
+footer{text-align:center;padding:24px;color:#667}
+</style>
+</head>
+<body>
+<header>
+<h1>🛒 سوقنا</h1>
+<p>كل احتياجات بيتك بمكان واحد</p>
+</header>
+<main>
+<h2>أهلاً بيك في سوقنا</h2>
+<p>تسوّق منتجاتك المفضلة بسهولة.</p>
+<input class="search" id="search" placeholder="ابحث عن منتج..." oninput="showProducts()">
+<div class="products" id="products"></div>
+<section class="cart">
+<h2>🛍️ سلة المشتريات</h2>
+<div id="cart">السلة فارغة حالياً</div>
+<p>المجموع: <strong id="total">0</strong> دينار عراقي</p>
+<button onclick="checkout()">إرسال الطلب عبر واتساب</button>
+</section>
+</main>
+<footer>© 2026 سوقنا - نموذج تجريبي</footer>
+<script>
+const items=[
+{name:"رز",price:3000,emoji:"🍚"},
+{name:"حليب",price:1500,emoji:"🥛"},
+{name:"خبز",price:1000,emoji:"🍞"},
+{name:"عصير",price:1250,emoji:"🧃"},
+{name:"بيض",price:3500,emoji:"🥚"},
+{name:"تفاح",price:2000,emoji:"🍎"}
+];
+let basket=[];
+function showProducts(){
+let q=document.getElementById("search").value.trim();
+document.getElementById("products").innerHTML=items.filter(p=>p.name.includes(q)).map(p=>
+`<article class="card"><div class="emoji">${p.emoji}</div><h3>${p.name}</h3><p class="price">${p.price.toLocaleString("en-US")} د.ع</p><button onclick="add('${p.name}')">أضف للسلة +</button></article>`
+).join("");
+}
+function add(name){
+basket.push(items.find(p=>p.name===name));showCart();
+}
+function showCart(){
+document.getElementById("cart").innerHTML=basket.length?basket.map(p=>p.emoji+" "+p.name+" - "+p.price.toLocaleString("en-US")+" د.ع").join("<br>"):"السلة فارغة حالياً";
+document.getElementById("total").textContent=basket.reduce((s,p)=>s+p.price,0).toLocaleString("en-US");
+}
+function checkout(){
+if(!basket.length){alert("أضف منتجاً إلى السلة أولاً");return}
+alert("هذا نموذج تجريبي. اربط رقم واتساب الخاص بالمتجر قبل استقبال طلبات حقيقية.");
+}
+showProducts();
+</script>
+</body>
+</html>
